@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -82,4 +83,89 @@
 
     <script src="script.js"></script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Tiempo de Anime</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Selector de Idioma -->
+        <div class="language-selector">
+            <select id="languageSelect" onchange="cambiarIdioma(this.value)">
+                <option value="es" selected>🇪🇸 Español</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+
+        <!-- Título principal -->
+        <div class="header-box">
+            <h1 class="main-title">ANIME TIME ⚡</h1>
+            <div class="subtitle" id="textSubtitle">Calculadora de Maratones & Ociosidad</div>
+        </div>
+        
+        <div class="input-group">
+            <label for="animeName" id="textLabelName">Nombre del Anime (Opcional):</label>
+            <input type="text" id="animeName" placeholder="Ej. Jujutsu Kaisen, One Piece...">
+        </div>
+
+        <div class="input-group">
+            <label for="episodes" id="textLabelEpisodes">Número de capítulos:</label>
+            <input type="number" id="episodes" placeholder="Ej. 12, 24, 100..." min="1">
+        </div>
+
+        <!-- Control deslizante (Slider) para ritmo personalizado -->
+        <div class="input-group slider-group">
+            <label for="customPace"><span id="textLabelPace">Capítulos por día que planeas ver:</span> <span id="paceValue">5</span></label>
+            <input type="range" id="customPace" min="1" max="20" value="5" oninput="actualizarSlider(this.value)">
+        </div>
+
+        <button onclick="calcularTiempo()" id="textBtnCalculate">Calcular mi Maratón</button>
+
+        <div class="note" id="textNote">Nota: Se calcula usando un promedio estándar de 24 minutos por capítulo.</div>
+
+        <div id="resultsSection" class="results">
+            <div id="rankBadge" class="badge">Rango: Otaku Casual</div>
+            
+            <div class="result-item">
+                <span class="result-label" id="titleTotal">Tiempo Total:</span>
+                <span class="result-value" id="totalTime">-</span>
+            </div>
+
+            <!-- Resultado del ritmo personalizado con el slider -->
+            <div class="result-item highlight-pace">
+                <span class="result-label" id="customPaceLabel">A tu ritmo (5 caps/día):</span>
+                <span class="result-value" id="customDaysResult">-</span>
+            </div>
+
+            <!-- Ritmos fijos de referencia -->
+            <div class="result-item">
+                <span class="result-label" id="textRelaxPace">Modo Relax (3 caps/día):</span>
+                <span class="result-value" id="pace3">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label" id="textGodPace">Modo Dios (10 caps/día):</span>
+                <span class="result-value" id="pace10">-</span>
+            </div>
+
+            <!-- Caja de equivalentes divertidos -->
+            <div class="fun-fact" id="funFactText">
+                📊 Equivale a...
+            </div>
+
+            <div class="comment-box" id="commentText">
+                ¡Prepara las palomitas!
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+>>>>>>> f3f7c7d13c2b96571bf3eb245692e8893a28db6e
 </html>
