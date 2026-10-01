@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Time - Portal y Calculadora</title>
-    <link rel="icon" type="image/png" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,12 +24,18 @@
                 <li><strong>2.</strong> One Piece (Arco Final)</li>
                 <li><strong>3.</strong> Solo Leveling (Emisión)</li>
                 <li><strong>4.</strong> Dandadan</li>
+                <li><strong>5.</strong> Bleach: TYBW</li>
+                <li><strong>6.</strong> My Hero Academia</li>
+                <li><strong>7.</strong> Oshi no Ko</li>
+                <li><strong>8.</strong> Blue Lock</li>
+                <li><strong>9.</strong> Kaiju No. 8</li>
+                <li><strong>10.</strong> Frieren</li>
             </ul>
         </div>
 
         <!-- Columna Central: Calculadora Interactiva con Extras -->
         <div class="card-calculator">
-            <!-- Selector de Idioma con Español (México), Inglés y Japonés -->
+            <!-- Selector de Idioma -->
             <div class="lang-container">
                 <select id="langSelect" style="width: auto; padding: 4px 8px; font-size: 0.75rem;">
                     <option value="es">🇲🇽 Español</option>
@@ -79,45 +85,30 @@
         <!-- Widget Derecho: Próximos Estrenos -->
         <div class="card-widget">
             <h3>📅 Próximos Estrenos</h3>
+            <p style="font-size: 0.75rem; color: #ff3366; margin-bottom: 10px; font-weight: bold;">Temporada Otoño</p>
             <ul>
-                <li><strong>Chainsaw Man</strong> (Película Reze)</li>
-                <li><strong>Bleach TYBW</strong> (Próxima Parte)</li>
-                <li><strong>Spy x Family</strong> (Temporada Nueva)</li>
-                <li><strong>Dr. Stone</strong> (Conclusión)</li>
+                <li>
+                    <strong>Chainsaw Man</strong> (Película Reze)<br>
+                    <span style="font-size: 0.75rem; color: #8b949e;">📅 12/10/26</span>
+                </li>
+                <li>
+                    <strong>Bleach TYBW</strong><br>
+                    <span style="font-size: 0.75rem; color: #8b949e;">📅 15/10/26</span>
+                </li>
+                <li>
+                    <strong>Spy x Family</strong><br>
+                    <span style="font-size: 0.75rem; color: #8b949e;">📅 20/10/26</span>
+                </li>
+                <li>
+                    <strong>Dr. Stone</strong><br>
+                    <span style="font-size: 0.75rem; color: #8b949e;">📅 25/10/26</span>
+                </li>
             </ul>
         </div>
 
     </div>
 
-    <script>
-        function calculateAnime() {
-            const name = document.getElementById('animeName').value || "Tu anime";
-            const durationPerEp = parseInt(document.getElementById('episodeType').value);
-            const eps = parseInt(document.getElementById('episodeCount').value);
-            const epsPerDay = parseInt(document.getElementById('pacingRange').value);
-
-            if (isNaN(eps) || eps <= 0) {
-                alert("Por favor, ingresa un número válido de capítulos.");
-                return;
-            }
-
-            const totalMinutes = eps * durationPerEp;
-            const hours = Math.floor(totalMinutes / 60);
-            const minutes = totalMinutes % 60;
-            const daysNeeded = Math.ceil(eps / epsPerDay);
-
-            let rank = "🌱 Principiante de Shonen";
-            if (eps > 50) rank = "⚡ Maratonista Experto";
-            if (eps > 150) rank = "🔥 Otaku Legendario";
-            if (eps > 300) rank = "👑 Dios del Anime y el Ocio";
-
-            document.getElementById('resTitle').innerText = `Maratón para: ${name}`;
-            document.getElementById('resTotalTime').innerText = `⏱️ Tiempo total: ${hours} hrs ${minutes} min`;
-            document.getElementById('resDaysToFinish').innerText = `📅 Lo terminarás en aprox. ${daysNeeded} días viendo ${epsPerDay} caps/día`;
-            document.getElementById('resBadge').innerText = `Rango: ${rank}`;
-            
-            document.getElementById('resultsArea').style.display = "block";
-        }
-    </script>
+    <!-- Enlace al archivo JavaScript independiente -->
+    <script src="script.js"></script>
 </body>
 </html>

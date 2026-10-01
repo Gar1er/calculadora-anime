@@ -187,3 +187,22 @@ input:focus, select:focus {
     justify-content: flex-end;
     margin-bottom: 5px;
 }
+
+/* --- Scroll elegante para el Top Semanal y Próximos Estrenos --- */
+.card-widget ul {
+    max-height: 280px; 
+    overflow-y: auto;  
+    padding-right: 5px;
+}
+
+/* Personalizar la barrita de scroll para que luzca moderna y oscura */
+.card-widget ul::-webkit-scrollbar {
+    width: 6px;
+}
+.card-widget ul::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 4px;
+}
+.card-widget ul::-webkit-scrollbar-thumb:hover {
+    background: #ff3366;
+}
