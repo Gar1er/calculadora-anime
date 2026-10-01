@@ -3,83 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Tiempo de Anime</title>
+    <title>Anime Time - Portal y Calculadora</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
 
-    <div class="container">
-        <!-- Selector de Idioma -->
-        <div class="language-selector">
-            <select id="languageSelect" onchange="cambiarIdioma(this.value)">
-                <option value="es" selected>🇪🇸 Español</option>
-                <option value="en">🇺🇸 English</option>
-                <option value="ja">🇯🇵 日本語</option>
-            </select>
-        </div>
+    <header>
+        <h1>ANIME PORTAL & TIME</h1>
+        <p>Tu centro de control y cálculo otaku definitivo</p>
+    </header>
 
-        <!-- Título principal -->
-        <div class="header-box">
-            <h1 class="main-title">ANIME TIME ⚡</h1>
-            <div class="subtitle" id="textSubtitle">Calculadora de Maratones & Ociosidad</div>
-        </div>
+    <div class="portal-container">
         
-        <div class="input-group">
-            <label for="animeName" id="textLabelName">Nombre del Anime (Opcional):</label>
-            <input type="text" id="animeName" placeholder="Ej. Jujutsu Kaisen, One Piece...">
+        <!-- Widget Izquierdo: Top Semanal -->
+        <div class="card-widget">
+            <h3>🔥 Top Semanal</h3>
+            <ul>
+                <li><strong>1.</strong> Jujutsu Kaisen (Temporada Actual)</li>
+                <li><strong>2.</strong> One Piece (Arco Final)</li>
+                <li><strong>3.</strong> Solo Leveling (Emisión)</li>
+                <li><strong>4.</strong> Dandadan</li>
+            </ul>
         </div>
 
-        <div class="input-group">
-            <label for="episodes" id="textLabelEpisodes">Número de capítulos:</label>
-            <input type="number" id="episodes" placeholder="Ej. 12, 24, 100..." min="1">
-        </div>
+        <!-- Columna Central: Calculadora Interactiva con Extras -->
+        <div class="card-calculator">
+            <!-- Selector de Idioma con Español (México), Inglés y Japonés -->
+            <div class="lang-container">
+                <select id="langSelect" style="width: auto; padding: 4px 8px; font-size: 0.75rem;">
+                    <option value="es">🇲🇽 Español</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="jp">🇯🇵 日本語</option>
+                </select>
+            </div>
 
-        <!-- Control deslizante (Slider) para ritmo personalizado -->
-        <div class="input-group slider-group">
-            <label for="customPace"><span id="textLabelPace">Capítulos por día que planeas ver:</span> <span id="paceValue">5</span></label>
-            <input type="range" id="customPace" min="1" max="20" value="5" oninput="actualizarSlider(this.value)">
-        </div>
-
-        <button onclick="calcularTiempo()" id="textBtnCalculate">Calcular mi Maratón</button>
-
-        <div class="note" id="textNote">Nota: Se calcula usando un promedio estándar de 24 minutos por capítulo.</div>
-
-        <div id="resultsSection" class="results">
-            <div id="rankBadge" class="badge">Rango: Otaku Casual</div>
+            <h2>ANIME TIME</h2>
+            <p style="text-align: center; font-size: 0.8rem; color: #8b949e; margin-bottom: 15px;">Calculadora & Rangos</p>
             
-            <div class="result-item">
-                <span class="result-label" id="titleTotal">Tiempo Total:</span>
-                <span class="result-value" id="totalTime">-</span>
+            <div class="form-group">
+                <label>Nombre del Anime:</label>
+                <input type="text" id="animeName" placeholder="Ej. Naruto, Bleach...">
             </div>
 
-            <!-- Resultado del ritmo personalizado con el slider -->
-            <div class="result-item highlight-pace">
-                <span class="result-label" id="customPaceLabel">A tu ritmo (5 caps/día):</span>
-                <span class="result-value" id="customDaysResult">-</span>
+            <div class="form-group">
+                <label>Formato / Duración:</label>
+                <select id="episodeType">
+                    <option value="24">Serie Estándar (24 min/cap)</option>
+                    <option value="12">Formato Corto (12 min/cap)</option>
+                    <option value="120">Película (120 min)</option>
+                </select>
             </div>
 
-            <!-- Ritmos fijos de referencia -->
-            <div class="result-item">
-                <span class="result-label" id="textRelaxPace">Modo Relax (3 caps/día):</span>
-                <span class="result-value" id="pace3">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label" id="textGodPace">Modo Dios (10 caps/día):</span>
-                <span class="result-value" id="pace10">-</span>
+            <div class="form-group">
+                <label>Número de Capítulos:</label>
+                <input type="number" id="episodeCount" placeholder="Ej. 12, 24, 100...">
             </div>
 
-            <!-- Caja de equivalentes divertidos -->
-            <div class="fun-fact" id="funFactText">
-                📊 Equivale a...
+            <div class="form-group">
+                <label>Capítulos por día que planeas ver: <span id="daysVal" style="color:#ff3366; font-weight:bold;">5</span></label>
+                <input type="range" id="pacingRange" min="1" max="25" value="5" oninput="document.getElementById('daysVal').innerText = this.value">
             </div>
 
-            <div class="comment-box" id="commentText">
-                ¡Prepara las palomitas!
+            <button class="btn-calculate" onclick="calculateAnime()">Calcular Maratón</button>
+
+            <!-- Sección de Resultados Oculta al inicio -->
+            <div id="resultsArea" class="results-box">
+                <h4 id="resTitle">Resumen del Maratón</h4>
+                <p id="resTotalTime">Tiempo total: --</p>
+                <p id="resDaysToFinish">Días estimados: --</p>
+                <div><span id="resBadge" class="badge">Rango: --</span></div>
             </div>
         </div>
+
+        <!-- Widget Derecho: Próximos Estrenos -->
+        <div class="card-widget">
+            <h3>📅 Próximos Estrenos</h3>
+            <ul>
+                <li><strong>Chainsaw Man</strong> (Película Reze)</li>
+                <li><strong>Bleach TYBW</strong> (Próxima Parte)</li>
+                <li><strong>Spy x Family</strong> (Temporada Nueva)</li>
+                <li><strong>Dr. Stone</strong> (Conclusión)</li>
+            </ul>
+        </div>
+
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function calculateAnime() {
+            const name = document.getElementById('animeName').value || "Tu anime";
+            const durationPerEp = parseInt(document.getElementById('episodeType').value);
+            const eps = parseInt(document.getElementById('episodeCount').value);
+            const epsPerDay = parseInt(document.getElementById('pacingRange').value);
+
+            if (isNaN(eps) || eps <= 0) {
+                alert("Por favor, ingresa un número válido de capítulos.");
+                return;
+            }
+
+            const totalMinutes = eps * durationPerEp;
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            const daysNeeded = Math.ceil(eps / epsPerDay);
+
+            let rank = "🌱 Principiante de Shonen";
+            if (eps > 50) rank = "⚡ Maratonista Experto";
+            if (eps > 150) rank = "🔥 Otaku Legendario";
+            if (eps > 300) rank = "👑 Dios del Anime y el Ocio";
+
+            document.getElementById('resTitle').innerText = `Maratón para: ${name}`;
+            document.getElementById('resTotalTime').innerText = `⏱️ Tiempo total: ${hours} hrs ${minutes} min`;
+            document.getElementById('resDaysToFinish').innerText = `📅 Lo terminarás en aprox. ${daysNeeded} días viendo ${epsPerDay} caps/día`;
+            document.getElementById('resBadge').innerText = `Rango: ${rank}`;
+            
+            document.getElementById('resultsArea').style.display = "block";
+        }
+    </script>
 </body>
 </html>
