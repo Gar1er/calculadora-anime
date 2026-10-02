@@ -38,7 +38,7 @@
             <!-- Selector de Idioma -->
             <div class="lang-container">
                 <select id="langSelect" style="width: auto; padding: 4px 8px; font-size: 0.75rem;">
-                    <option value="es">🇲🇽 Español</option>
+                    <option value="es">🇲🇽 Español (MX)</option>
                     <option value="en">🇺🇸 English</option>
                     <option value="jp">🇯🇵 日本語</option>
                 </select>
@@ -47,6 +47,12 @@
             <h2>ANIME TIME</h2>
             <p style="text-align: center; font-size: 0.8rem; color: #8b949e; margin-bottom: 15px;">Calculadora & Rangos</p>
             
+            <!-- NUEVO: Campo para el Apodo / Nombre del usuario -->
+            <div class="form-group">
+                <label>Tu Nombre o Apodo:</label>
+                <input type="text" id="userName" placeholder="Ej. OtakuPro99, Carlos...">
+            </div>
+
             <div class="form-group">
                 <label>Nombre del Anime:</label>
                 <input type="text" id="animeName" placeholder="Ej. Naruto, Bleach...">
@@ -73,11 +79,11 @@
 
             <button class="btn-calculate" onclick="calculateAnime()">Calcular Maratón</button>
 
-            <!-- Sección de Resultados Oculta al inicio -->
+            <!-- Sección de Resultados con un id nuevo (capture-card) para cuando hagamos la imagen -->
             <div id="resultsArea" class="results-box">
                 <h4 id="resTitle">Resumen del Maratón</h4>
-                <p id="resTotalTime">Tiempo total: --</p>
-                <p id="resDaysToFinish">Días estimados: --</p>
+                <p id="resTotalTime">⏱️ Tiempo total: --</p>
+                <p id="resDaysToFinish">📅 Días estimados: --</p>
                 <div><span id="resBadge" class="badge">Rango: --</span></div>
             </div>
         </div>

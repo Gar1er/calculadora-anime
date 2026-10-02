@@ -2,7 +2,6 @@
 // ANIME PORTAL & TIME - SCRIPT PRINCIPAL
 // ==========================================
 
-// Diccionario de traducciones para el sistema multilenguaje
 const translations = {
     es: {
         headerTitle: "ANIME PORTAL & TIME",
@@ -78,15 +77,20 @@ const translations = {
     }
 };
 
-// Función principal para calcular el tiempo del maratón y asignar rango
 function calculateAnime() {
     const lang = document.getElementById('langSelect').value;
-    const name = document.getElementById('animeName').value || (lang === 'en' ? "Your anime" : lang === 'jp' ? "あなたのアニメ" : "Tu anime");
+    
+    // Capturamos el apodo de forma segura
+    const userAliasInput = document.getElementById('userName');
+    const userAlias = userAliasInput ? userAliasInput.value.trim() : "";
+    
+    const animeInput = document.getElementById('animeName').value.trim();
+    const animeName = animeInput || (lang === 'en' ? "Your anime" : lang === 'jp' ? "あなたのアニメ" : "Tu anime");
+    
     const durationPerEp = parseInt(document.getElementById('episodeType').value);
     const eps = parseInt(document.getElementById('episodeCount').value);
     const epsPerDay = parseInt(document.getElementById('pacingRange').value);
 
-    // Mensaje de alerta adaptado según el idioma seleccionado
     const alertMsg = translations[lang] ? translations[lang].alertError : "Por favor, ingresa un número válido de capítulos.";
 
     if (isNaN(eps) || eps <= 0) {
@@ -99,7 +103,6 @@ function calculateAnime() {
     const minutes = totalMinutes % 60;
     const daysNeeded = Math.ceil(eps / epsPerDay);
 
-    // Asignación de rangos Otaku
     let rank = "🌱 Principiante de Shonen";
     if (lang === 'en') {
         rank = "🌱 Shonen Beginner";
@@ -117,19 +120,26 @@ function calculateAnime() {
         if (eps > 300) rank = "👑 Dios del Anime y el Ocio";
     }
 
-    // Textos dinámicos en los resultados según el idioma
+    // Saludo personalizado con el apodo
+    let greetingPrefix = "";
+    if (userAlias) {
+        if (lang === 'en') greetingPrefix = `Hey, ${userAlias}! `;
+        else if (lang === 'jp') greetingPrefix = `${userAlias}さん、`;
+        else greetingPrefix = `¡Hola, ${userAlias}! `;
+    }
+
     if (lang === 'en') {
-        document.getElementById('resTitle').innerText = `Marathon for: ${name}`;
+        document.getElementById('resTitle').innerText = `${greetingPrefix}Marathon for: ${animeName}`;
         document.getElementById('resTotalTime').innerText = `⏱️ Total time: ${hours} hrs ${minutes} min`;
         document.getElementById('resDaysToFinish').innerText = `📅 You will finish in approx. ${daysNeeded} days watching ${epsPerDay} eps/day`;
         document.getElementById('resBadge').innerText = `Rank: ${rank}`;
     } else if (lang === 'jp') {
-        document.getElementById('resTitle').innerText = `アニメ: ${name} のマラソン`;
+        document.getElementById('resTitle').innerText = `${greetingPrefix}アニメ「${animeName}」のマラソン`;
         document.getElementById('resTotalTime').innerText = `⏱️ 合計時間: ${hours}時間 ${minutes}分`;
         document.getElementById('resDaysToFinish').innerText = `📅 1日${epsPerDay}話見て、約${daysNeeded}日で終わります`;
         document.getElementById('resBadge').innerText = `ランク: ${rank}`;
     } else {
-        document.getElementById('resTitle').innerText = `Maratón para: ${name}`;
+        document.getElementById('resTitle').innerText = `${greetingPrefix}Maratón para: ${animeName}`;
         document.getElementById('resTotalTime').innerText = `⏱️ Tiempo total: ${hours} hrs ${minutes} min`;
         document.getElementById('resDaysToFinish').innerText = `📅 Lo terminarás en aprox. ${daysNeeded} días viendo ${epsPerDay} caps/día`;
         document.getElementById('resBadge').innerText = `Rango: ${rank}`;
@@ -138,7 +148,6 @@ function calculateAnime() {
     document.getElementById('resultsArea').style.display = "block";
 }
 
-// Lógica para cambiar dinámicamente el idioma de la página al seleccionar el menú
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('langSelect');
     
@@ -149,11 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!t) return;
 
-            // Traducir elementos fijos de la interfaz
             document.querySelector('header h1').innerText = t.headerTitle;
             document.querySelector('header p').innerText = t.headerSub;
             
-            // Widgets laterales
             const widgets = document.querySelectorAll('.card-widget');
             if (widgets.length >= 2) {
                 widgets[0].querySelector('h3').innerText = t.topWeeklyTitle;
@@ -163,25 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Calculadora
             document.querySelector('.card-calculator h2').innerText = t.calcHeader;
             document.querySelector('.card-calculator p').innerText = t.calcSub;
             
-            // Etiquetas del formulario
-            const labels = document.querySelectorAll('.card-calculator label');
-            if (labels.length >= 4) {
-                labels[0].innerText = t.labelName;
-                labels[1].innerText = t.labelFormat;
-                labels[2].innerText = t.labelEps;
-                // La etiqueta del slider conserva su contador dinámico
-            }
-
-            // Inputs y botones
             document.getElementById('animeName').placeholder = t.placeholderName;
             document.getElementById('episodeCount').placeholder = t.placeholderEps;
             document.querySelector('.btn-calculate').innerText = t.btnCalc;
 
-            // Opciones del selector de formato
             const options = document.getElementById('episodeType').options;
             if (options.length >= 3) {
                 options[0].text = t.optStandard;
