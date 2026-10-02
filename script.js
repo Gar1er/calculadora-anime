@@ -26,10 +26,18 @@ const translations = {
         resDays: "Días estimados: --",
         resBadge: "Rango: --",
         btnDownload: "📥 Descargar Tarjeta para Redes",
+        btnShareWA: "💬 WhatsApp",
+        btnShareX: "🐦 X / Twitter",
+        btnShareFB: "📘 Facebook",
+        btnShareIG: "📸 Instagram",
+        btnCopy: "📋 Copiar Enlace",
         upcomingTitle: "📅 Próximos Estrenos",
         seasonTitle: "Temporada Otoño",
         alertError: "Por favor, ingresa un número válido de capítulos.",
-        alertCanvasError: "Hubo un error al generar la tarjeta. ¡Inténtalo de nuevo!"
+        alertCanvasError: "Hubo un error al generar la tarjeta. ¡Inténtalo de nuevo!",
+        alertCopied: "¡Enlace y resultado copiado al portapapeles! 🚀",
+        alertIgCopied: "¡Texto copiado al portapapeles! 📸 Pégalo en tu historia de Instagram junto con la imagen de la tarjeta que descargaste.",
+        shareText: "¡Calculé mi maratón de anime en Anime Portal & Time! Checa cuánto tardaré:"
     },
     en: {
         headerTitle: "ANIME PORTAL & TIME",
@@ -54,10 +62,18 @@ const translations = {
         resDays: "Estimated days: --",
         resBadge: "Rank: --",
         btnDownload: "📥 Download Card for Socials",
+        btnShareWA: "💬 WhatsApp",
+        btnShareX: "🐦 X / Twitter",
+        btnShareFB: "📘 Facebook",
+        btnShareIG: "📸 Instagram",
+        btnCopy: "📋 Copy Link",
         upcomingTitle: "📅 Upcoming Releases",
         seasonTitle: "Autumn Season",
         alertError: "Please enter a valid number of episodes.",
-        alertCanvasError: "An error occurred while generating the card. Please try again!"
+        alertCanvasError: "An error occurred while generating the card. Please try again!",
+        alertCopied: "Link and result copied to clipboard! 🚀",
+        alertIgCopied: "Text copied! Now paste it into your Instagram Story along with the downloaded card image.",
+        shareText: "I calculated my anime marathon on Anime Portal & Time! Check how long it will take me:"
     },
     jp: {
         headerTitle: "アニメポータル＆タイム",
@@ -82,10 +98,18 @@ const translations = {
         resDays: "目安日数: --",
         resBadge: "ランク: --",
         btnDownload: "📥 SNS用カードをダウンロード",
+        btnShareWA: "💬 WhatsApp",
+        btnShareX: "🐦 X / Twitter",
+        btnShareFB: "📘 Facebook",
+        btnShareIG: "📸 Instagram",
+        btnCopy: "📋 リンクをコピー",
         upcomingTitle: "📅 今後のリリース",
         seasonTitle: "秋アニメ",
         alertError: "有効な話数を入力してください。",
-        alertCanvasError: "カードの生成中にエラーが発生しました。もう一度お試しください！"
+        alertCanvasError: "カードの生成中にエラーが発生しました。もう一度お試しください！",
+        alertCopied: "リンクと結果がクリップボードにコピーされました！ 🚀",
+        alertIgCopied: "テキストがコピーされました！Instagramのストーリーにカード画像と一緒に貼り付けてください。",
+        shareText: "アニメポータル＆タイムでアニメのマラソン時間を計算しました！"
     }
 };
 
@@ -184,6 +208,35 @@ function downloadResultCard() {
     });
 }
 
+// Función para compartir en redes sociales o copiar el enlace
+function shareOnSocial(platform) {
+    const lang = document.getElementById('langSelect').value;
+    const t = translations[lang];
+    const pageUrl = window.location.href;
+    
+    const titleText = document.getElementById('resTitle').innerText;
+    const timeText = document.getElementById('resTotalTime').innerText;
+    const badgeText = document.getElementById('resBadge').innerText;
+    
+    const message = `${t.shareText}\n✨ ${titleText}\n⏱️ ${timeText}\n🏆 ${badgeText}\n🔗 ${pageUrl}`;
+
+    if (platform === 'whatsapp') {
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
+    } else if (platform === 'twitter') {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
+    } else if (platform === 'facebook') {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`, '_blank');
+    } else if (platform === 'instagram') {
+        navigator.clipboard.writeText(message).then(() => {
+            alert(t.alertIgCopied);
+        });
+    } else if (platform === 'copy') {
+        navigator.clipboard.writeText(message).then(() => {
+            alert(t.alertCopied);
+        });
+    }
+}
+
 // Lógica de traducción dinámica en tiempo real
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('langSelect');
@@ -224,9 +277,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.btn-calculate').innerText = t.btnCalc;
             
             const downloadBtn = document.getElementById('btnDownloadCard');
-            if (downloadBtn) {
-                downloadBtn.innerText = t.btnDownload;
-            }
+            if (downloadBtn) downloadBtn.innerText = t.btnDownload;
+
+            const btnWA = document.getElementById('btnShareWhatsApp');
+            const btnX = document.getElementById('btnShareTwitter');
+            const btnFB = document.getElementById('btnShareFacebook');
+            const btnIG = document.getElementById('btnShareInstagram');
+            const btnCopy = document.getElementById('btnCopyLink');
+            
+            if (btnWA) btnWA.innerText = t.btnShareWA;
+            if (btnX) btnX.innerText = t.btnShareX;
+            if (btnFB) btnFB.innerText = t.btnShareFB;
+            if (btnIG) btnIG.innerText = t.btnShareIG;
+            if (btnCopy) btnCopy.innerText = t.btnCopy;
 
             const options = document.getElementById('episodeType').options;
             if (options.length >= 3) {

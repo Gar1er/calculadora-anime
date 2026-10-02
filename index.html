@@ -90,6 +90,25 @@
                 <button id="btnDownloadCard" class="btn-calculate" style="margin-top: 15px; background-color: #238636;" onclick="downloadResultCard()">
                     📥 Descargar Tarjeta para Redes
                 </button>
+
+                <!-- Contenedor de Botones para Compartir en Redes (Actualizado) -->
+                <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                    <button id="btnShareWhatsApp" onclick="shareOnSocial('whatsapp')" style="background-color: #25d366; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
+                        💬 WhatsApp
+                    </button>
+                    <button id="btnShareTwitter" onclick="shareOnSocial('twitter')" style="background-color: #000000; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
+                        🐦 X / Twitter
+                    </button>
+                    <button id="btnShareFacebook" onclick="shareOnSocial('facebook')" style="background-color: #1877f2; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
+                        📘 Facebook
+                    </button>
+                    <button id="btnShareInstagram" onclick="shareOnSocial('instagram')" style="background-color: #e1306c; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
+                        📸 Instagram
+                    </button>
+                    <button id="btnCopyLink" onclick="shareOnSocial('copy')" style="background-color: #3b82f6; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;">
+                        📋 Copiar Enlace
+                    </button>
+                </div>
             </div>
         </div>
 
