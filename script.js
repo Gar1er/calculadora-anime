@@ -225,7 +225,8 @@ function shareOnSocial(platform) {
     } else if (platform === 'twitter') {
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
     } else if (platform === 'facebook') {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`, '_blank');
+        const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=${encodeURIComponent(message)}`;
+        window.open(fbUrl, '_blank');
     } else if (platform === 'instagram') {
         navigator.clipboard.writeText(message).then(() => {
             alert(t.alertIgCopied);
