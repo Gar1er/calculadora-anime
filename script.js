@@ -9,6 +9,8 @@ const translations = {
         topWeeklyTitle: "🔥 Top Semanal",
         calcHeader: "ANIME TIME",
         calcSub: "Calculadora & Rangos",
+        labelUser: "Tu Nombre o Apodo:",
+        placeholderUser: "Ej. OtakuPro99, Carlos...",
         labelName: "Nombre del Anime:",
         placeholderName: "Ej. Naruto, Bleach...",
         labelFormat: "Formato / Duración:",
@@ -33,6 +35,8 @@ const translations = {
         topWeeklyTitle: "🔥 Weekly Top",
         calcHeader: "ANIME TIME",
         calcSub: "Calculator & Ranks",
+        labelUser: "Your Name or Nickname:",
+        placeholderUser: "E.g. OtakuPro99, Carlos...",
         labelName: "Anime Name:",
         placeholderName: "E.g. Naruto, Bleach...",
         labelFormat: "Format / Duration:",
@@ -57,6 +61,8 @@ const translations = {
         topWeeklyTitle: "🔥 週間トップ",
         calcHeader: "アニメタイム",
         calcSub: "電卓 ＆ ランク",
+        labelUser: "お名前またはニックネーム:",
+        placeholderUser: "例: オタクプロ99, 太郎...",
         labelName: "アニメ名:",
         placeholderName: "例: ナルト, ブリーチ...",
         labelFormat: "フォーマット / 長さ:",
@@ -80,7 +86,6 @@ const translations = {
 function calculateAnime() {
     const lang = document.getElementById('langSelect').value;
     
-    // Capturamos el apodo de forma segura
     const userAliasInput = document.getElementById('userName');
     const userAlias = userAliasInput ? userAliasInput.value.trim() : "";
     
@@ -120,7 +125,6 @@ function calculateAnime() {
         if (eps > 300) rank = "👑 Dios del Anime y el Ocio";
     }
 
-    // Saludo personalizado con el apodo
     let greetingPrefix = "";
     if (userAlias) {
         if (lang === 'en') greetingPrefix = `Hey, ${userAlias}! `;
@@ -148,6 +152,7 @@ function calculateAnime() {
     document.getElementById('resultsArea').style.display = "block";
 }
 
+// Lógica del cambio de idioma (incluyendo las nuevas etiquetas y placeholders)
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('langSelect');
     
@@ -173,6 +178,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.card-calculator h2').innerText = t.calcHeader;
             document.querySelector('.card-calculator p').innerText = t.calcSub;
             
+            // Actualizar etiquetas del formulario
+            const labels = document.querySelectorAll('.card-calculator label');
+            if (labels.length >= 4) {
+                labels[0].innerText = t.labelUser;
+                labels[1].innerText = t.labelName;
+                labels[2].innerText = t.labelFormat;
+                labels[3].innerText = t.labelEps;
+            }
+
+            // Actualizar placeholders de los inputs
+            document.getElementById('userName').placeholder = t.placeholderUser;
             document.getElementById('animeName').placeholder = t.placeholderName;
             document.getElementById('episodeCount').placeholder = t.placeholderEps;
             document.querySelector('.btn-calculate').innerText = t.btnCalc;
