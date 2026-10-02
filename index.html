@@ -85,6 +85,11 @@
                 <p id="resTotalTime">⏱️ Tiempo total: --</p>
                 <p id="resDaysToFinish">📅 Días estimados: --</p>
                 <div><span id="resBadge" class="badge">Rango: --</span></div>
+
+                <!-- NUEVO: Botón para descargar la tarjeta como imagen -->
+                <button id="btnDownloadCard" class="btn-calculate" style="margin-top: 15px; background-color: #238636;" onclick="downloadResultCard()">
+                    📥 Descargar Tarjeta para Redes
+                </button>
             </div>
         </div>
 
@@ -113,6 +118,9 @@
         </div>
 
     </div>
+
+    <!-- Librería html2canvas para generar la imagen -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <!-- Enlace al archivo JavaScript independiente -->
     <script src="script.js"></script>

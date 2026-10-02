@@ -25,9 +25,11 @@ const translations = {
         resTime: "Tiempo total: --",
         resDays: "Días estimados: --",
         resBadge: "Rango: --",
+        btnDownload: "📥 Descargar Tarjeta para Redes",
         upcomingTitle: "📅 Próximos Estrenos",
         seasonTitle: "Temporada Otoño",
-        alertError: "Por favor, ingresa un número válido de capítulos."
+        alertError: "Por favor, ingresa un número válido de capítulos.",
+        alertCanvasError: "Hubo un error al generar la tarjeta. ¡Inténtalo de nuevo!"
     },
     en: {
         headerTitle: "ANIME PORTAL & TIME",
@@ -51,9 +53,11 @@ const translations = {
         resTime: "Total time: --",
         resDays: "Estimated days: --",
         resBadge: "Rank: --",
+        btnDownload: "📥 Download Card for Socials",
         upcomingTitle: "📅 Upcoming Releases",
         seasonTitle: "Autumn Season",
-        alertError: "Please enter a valid number of episodes."
+        alertError: "Please enter a valid number of episodes.",
+        alertCanvasError: "An error occurred while generating the card. Please try again!"
     },
     jp: {
         headerTitle: "アニメポータル＆タイム",
@@ -77,9 +81,11 @@ const translations = {
         resTime: "合計時間: --",
         resDays: "目安日数: --",
         resBadge: "ランク: --",
+        btnDownload: "📥 SNS用カードをダウンロード",
         upcomingTitle: "📅 今後のリリース",
         seasonTitle: "秋アニメ",
-        alertError: "有効な話数を入力してください。"
+        alertError: "有効な話数を入力してください。",
+        alertCanvasError: "カードの生成中にエラーが発生しました。もう一度お試しください！"
     }
 };
 
@@ -152,7 +158,33 @@ function calculateAnime() {
     document.getElementById('resultsArea').style.display = "block";
 }
 
-// Lógica del cambio de idioma (incluyendo las nuevas etiquetas y placeholders)
+// Función para descargar la tarjeta de resultados como imagen
+function downloadResultCard() {
+    const lang = document.getElementById('langSelect').value;
+    const resultsBox = document.getElementById('resultsArea');
+    const downloadBtn = document.getElementById('btnDownloadCard');
+    const alertCanvasErrorMsg = translations[lang] ? translations[lang].alertCanvasError : "Hubo un error al generar la tarjeta.";
+
+    downloadBtn.style.display = 'none';
+
+    html2canvas(resultsBox, {
+        backgroundColor: '#161b22',
+        scale: 2
+    }).then(canvas => {
+        downloadBtn.style.display = 'block';
+
+        const link = document.createElement('a');
+        link.download = 'mi-maraton-anime.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }).catch(err => {
+        console.error("Error al generar la imagen:", err);
+        downloadBtn.style.display = 'block';
+        alert(alertCanvasErrorMsg);
+    });
+}
+
+// Lógica de traducción dinámica en tiempo real
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('langSelect');
     
@@ -178,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.card-calculator h2').innerText = t.calcHeader;
             document.querySelector('.card-calculator p').innerText = t.calcSub;
             
-            // Actualizar etiquetas del formulario
             const labels = document.querySelectorAll('.card-calculator label');
             if (labels.length >= 4) {
                 labels[0].innerText = t.labelUser;
@@ -187,11 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels[3].innerText = t.labelEps;
             }
 
-            // Actualizar placeholders de los inputs
             document.getElementById('userName').placeholder = t.placeholderUser;
             document.getElementById('animeName').placeholder = t.placeholderName;
             document.getElementById('episodeCount').placeholder = t.placeholderEps;
             document.querySelector('.btn-calculate').innerText = t.btnCalc;
+            
+            const downloadBtn = document.getElementById('btnDownloadCard');
+            if (downloadBtn) {
+                downloadBtn.innerText = t.btnDownload;
+            }
 
             const options = document.getElementById('episodeType').options;
             if (options.length >= 3) {
