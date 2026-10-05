@@ -77,6 +77,14 @@
                 <input type="range" id="pacingRange" min="1" max="25" value="5" oninput="document.getElementById('daysVal').innerText = this.value">
             </div>
 
+            <!-- NUEVO: Casilla para restar Openings y Endings -->
+            <div style="margin: 15px 0; text-align: left; font-size: 0.9rem;">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="skipOpenings" style="width: 18px; height: 18px; accent-color: #238636; cursor: pointer;">
+                    <span id="labelSkip">Saltar Openings y Endings (-3 min por cap)</span>
+                </label>
+            </div>
+
             <button class="btn-calculate" onclick="calculateAnime()">Calcular Maratón</button>
 
             <!-- Sección de Resultados con un id nuevo (capture-card) para cuando hagamos la imagen -->

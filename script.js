@@ -20,6 +20,7 @@ const translations = {
         labelEps: "Número de Capítulos:",
         placeholderEps: "Ej. 12, 24, 100...",
         labelPacing: "Capítulos por día que planeas ver:",
+        labelSkipText: "Saltar Openings y Endings (-3 min por cap)",
         btnCalc: "Calcular Maratón",
         resHeader: "Resumen del Maratón",
         resTime: "Tiempo total: --",
@@ -56,6 +57,7 @@ const translations = {
         labelEps: "Number of Episodes:",
         placeholderEps: "E.g. 12, 24, 100...",
         labelPacing: "Episodes per day you plan to watch:",
+        labelSkipText: "Skip Openings and Endings (-3 min per ep)",
         btnCalc: "Calculate Marathon",
         resHeader: "Marathon Summary",
         resTime: "Total time: --",
@@ -92,6 +94,7 @@ const translations = {
         labelEps: "話数:",
         placeholderEps: "例: 12, 24, 100...",
         labelPacing: "1日に見る予定の話数:",
+        labelSkipText: "OP・EDをスキップ (-3分/話)",
         btnCalc: "マラソンを計算",
         resHeader: "マラソン概要",
         resTime: "合計時間: --",
@@ -122,9 +125,14 @@ function calculateAnime() {
     const animeInput = document.getElementById('animeName').value.trim();
     const animeName = animeInput || (lang === 'en' ? "Your anime" : lang === 'jp' ? "あなたのアニメ" : "Tu anime");
     
-    const durationPerEp = parseInt(document.getElementById('episodeType').value);
+    let durationPerEp = parseInt(document.getElementById('episodeType').value);
     const eps = parseInt(document.getElementById('episodeCount').value);
     const epsPerDay = parseInt(document.getElementById('pacingRange').value);
+    const skipOpEd = document.getElementById('skipOpenings').checked;
+
+    if (skipOpEd && durationPerEp > 12) {
+        durationPerEp -= 3;
+    }
 
     const alertMsg = translations[lang] ? translations[lang].alertError : "Por favor, ingresa un número válido de capítulos.";
 
@@ -137,6 +145,14 @@ function calculateAnime() {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     const daysNeeded = Math.ceil(eps / epsPerDay);
+
+    // Cálculo de la fecha exacta de finalización
+    const today = new Date();
+    today.setDate(today.getDate() + daysNeeded);
+    
+    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+    const localeString = lang === 'en' ? 'en-US' : lang === 'jp' ? 'ja-JP' : 'es-ES';
+    const targetDateStr = today.toLocaleDateString(localeString, optionsDate);
 
     let rank = "🌱 Principiante de Shonen";
     if (lang === 'en') {
@@ -165,17 +181,17 @@ function calculateAnime() {
     if (lang === 'en') {
         document.getElementById('resTitle').innerText = `${greetingPrefix}Marathon for: ${animeName}`;
         document.getElementById('resTotalTime').innerText = `⏱️ Total time: ${hours} hrs ${minutes} min`;
-        document.getElementById('resDaysToFinish').innerText = `📅 You will finish in approx. ${daysNeeded} days watching ${epsPerDay} eps/day`;
+        document.getElementById('resDaysToFinish').innerText = `📅 ${daysNeeded} days approx. (${epsPerDay} eps/day) — Finish: ${targetDateStr}`;
         document.getElementById('resBadge').innerText = `Rank: ${rank}`;
     } else if (lang === 'jp') {
         document.getElementById('resTitle').innerText = `${greetingPrefix}アニメ「${animeName}」のマラソン`;
         document.getElementById('resTotalTime').innerText = `⏱️ 合計時間: ${hours}時間 ${minutes}分`;
-        document.getElementById('resDaysToFinish').innerText = `📅 1日${epsPerDay}話見て、約${daysNeeded}日で終わります`;
+        document.getElementById('resDaysToFinish').innerText = `📅 約${daysNeeded}日 (1日${epsPerDay}話) — 完了予定: ${targetDateStr}`;
         document.getElementById('resBadge').innerText = `ランク: ${rank}`;
     } else {
         document.getElementById('resTitle').innerText = `${greetingPrefix}Maratón para: ${animeName}`;
         document.getElementById('resTotalTime').innerText = `⏱️ Tiempo total: ${hours} hrs ${minutes} min`;
-        document.getElementById('resDaysToFinish').innerText = `📅 Lo terminarás en aprox. ${daysNeeded} días viendo ${epsPerDay} caps/día`;
+        document.getElementById('resDaysToFinish').innerText = `📅 Aprox. ${daysNeeded} días viendo ${epsPerDay} caps/día (Terminarás el: ${targetDateStr})`;
         document.getElementById('resBadge').innerText = `Rango: ${rank}`;
     }
     
@@ -216,17 +232,17 @@ function shareOnSocial(platform) {
     
     const titleText = document.getElementById('resTitle').innerText;
     const timeText = document.getElementById('resTotalTime').innerText;
+    const daysText = document.getElementById('resDaysToFinish').innerText;
     const badgeText = document.getElementById('resBadge').innerText;
     
-    const message = `${t.shareText}\n✨ ${titleText}\n⏱️ ${timeText}\n🏆 ${badgeText}\n🔗 ${pageUrl}`;
+    const message = `${t.shareText}\n✨ ${titleText}\n⏱️ ${timeText}\n📅 ${daysText}\n🏆 ${badgeText}\n🔗 ${pageUrl}`;
 
     if (platform === 'whatsapp') {
         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, '_blank');
     } else if (platform === 'twitter') {
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
     } else if (platform === 'facebook') {
-        const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=${encodeURIComponent(message)}`;
-        window.open(fbUrl, '_blank');
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`, '_blank');
     } else if (platform === 'instagram') {
         navigator.clipboard.writeText(message).then(() => {
             alert(t.alertIgCopied);
@@ -271,6 +287,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 labels[2].innerText = t.labelFormat;
                 labels[3].innerText = t.labelEps;
             }
+
+            const labelSkip = document.getElementById('labelSkip');
+            if (labelSkip) labelSkip.innerText = t.labelSkipText;
 
             document.getElementById('userName').placeholder = t.placeholderUser;
             document.getElementById('animeName').placeholder = t.placeholderName;
